@@ -27,7 +27,7 @@ class VSDConnection(object):
                               base64.urlsafe_b64encode('%s:%s' %(username, password)),
             'Content-Type' : "application/json",
             'X-Nuage-Organization' : enterprise
-        }
+            }
         self.debug = debug
         self.force_auth = force_auth
 
@@ -138,7 +138,7 @@ class VSDConnection(object):
             api_session = {'APIKey' : rjson['APIKey'],
                            'APIKeyExpiry' : rjson['APIKeyExpiry'],
                            'APIKeyCreation' : time.time()
-                          }
+                           }
             with open(APIKey_file, 'w') as data_file:
                 json.dump(api_session, data_file)
     
