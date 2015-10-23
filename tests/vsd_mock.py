@@ -149,7 +149,7 @@ def get_object_list_with_parent(parent_name, parent_id, obj_name):
 @app.route("/nuage/api/v1_0/groups/<obj_id>/users", methods=['PUT'])
 def update_group_user_list(obj_id):
     # ToDo: Currently the server_mock doesn't do anything while we update
-    #       the list of users in the group. If you wan to implement this
+    #       the list of users in the group. If you want to implement this
     #       mock method, you should at first fix the user-list mock: it
     #       currently doesn't list user by group-id (mock of "vsd user-list
     #       --group-id xD42x" currently doesn't work)
