@@ -111,10 +111,11 @@ def filter_objets(obj_name, filter):
 @app.route("/nuage/api/v1_0/me", methods=['GET'])
 def me_show():
     if request.headers.get('Authorization') != "XREST dGVzdDp0ZXN0":
-        return make_response("<html><head><title>JBoss - Error report</head></html>", '401')
+        return make_response("<html><head><title>JBoss"
+                             " - Error report</head></html>", '401')
     reply = [{'firstName': 'csproot',
               'enterpriseName': 'CSP',
-              'APIKey':'02a99c64-a09a-46d7',
+              'APIKey': '02a99c64-a09a-46d7',
               'APIKeyExpiry': (int(epoch())+100)*1000,
               'enterpriseID': 'fc3a351e-87dc-46a4-bcf5-8c4bb204bd46'}]
     return json.dumps(reply)
@@ -135,7 +136,8 @@ def object_show(obj_name, obj_id):
     return json.dumps([get_object_id(obj_name, 'ID', obj_id)])
 
 
-@app.route("/nuage/api/v1_0/<parent_name>/<parent_id>/<obj_name>", methods=['GET'])
+@app.route("/nuage/api/v1_0/<parent_name>/<parent_id>/<obj_name>",
+           methods=['GET'])
 def get_object_list_with_parent(parent_name, parent_id, obj_name):
     # Check parent exist but don't check parent own objects
     data_src = get_object_id(parent_name, 'ID', parent_id)
@@ -164,11 +166,13 @@ def update_group_user_list(obj_id):
 def license_create():
     data_update = json.loads(request.data)
     if 'licenses' not in database:
-        database.update({'licenses':[]})
+        database.update({'licenses': []})
     data_src = get_object_id('licenses', 'license', data_update['license'])
     if data_src != {}:
         return make_response(json.dumps(
-        get_object_id('messages', 'name', 'already exists')['message']), '409')
+                get_object_id('messages', 'name',
+                              'already exists')['message']),
+                             '409')
     new = {'license': data_update['license'],
            'ID': '255d9673-7281-43c4-be57-fdec677f6e07',
            'description': 'None',
@@ -179,7 +183,8 @@ def license_create():
            'majorRelease': '6',
            'expirationDate': 1500000000000}
     database['licenses'].append(new)
-    return json.dumps([get_object_id('licenses', 'ID', '255d9673-7281-43c4-be57-fdec677f6e07')])
+    return json.dumps([get_object_id('licenses', 'ID',
+                                     '255d9673-7281-43c4-be57-fdec677f6e07')])
 
 
 @app.route("/nuage/api/v1_0/<obj_name>", methods=['POST'])
@@ -188,15 +193,18 @@ def object_create(obj_name):
     data_src = get_object_id(obj_name, 'name', data_update['name'])
     if data_src != {}:
         return make_response(json.dumps(
-            get_object_id('messages', 'name', 'already exists')['message']), '409')
+            get_object_id('messages', 'name', 'already exists')['message']),
+                             '409')
     new = {'name': data_update['name'],
            'ID': '255d9673-7281-43c4-be57-fdec677f6e07',
            'description': 'None'}
     database[obj_name].append(new)
-    return json.dumps([get_object_id(obj_name, 'ID', '255d9673-7281-43c4-be57-fdec677f6e07')])
+    return json.dumps([get_object_id(obj_name, 'ID',
+                                     '255d9673-7281-43c4-be57-fdec677f6e07')])
 
 
-@app.route("/nuage/api/v1_0/<parent_name>/<parent_id>/<obj_name>", methods=['POST'])
+@app.route("/nuage/api/v1_0/<parent_name>/<parent_id>/<obj_name>",
+           methods=['POST'])
 def object_create_with_parent(parent_name, parent_id, obj_name):
     data_update = json.loads(request.data)
     # Check parent exist but don't check parent own objects
@@ -208,7 +216,9 @@ def object_create_with_parent(parent_name, parent_id, obj_name):
         data_src = get_object_id(obj_name, 'name', data_update['name'])
         if data_src != {}:
             return make_response(json.dumps(
-                get_object_id('messages', 'name', 'already exists')['message']), '409')
+                get_object_id('messages', 'name',
+                              'already exists')['message']),
+                                 '409')
     uuid = '255d9673-7281-43c4-be57-fdec677f6e07'
     with_random_uuid = ['dhcpoptions']
     if obj_name in with_random_uuid:
@@ -219,7 +229,7 @@ def object_create_with_parent(parent_name, parent_id, obj_name):
         'description': 'None'
     })
     if obj_name not in database:
-        database.update({obj_name:[]})
+        database.update({obj_name: []})
     database[obj_name].append(data_update)
     return json.dumps([get_object_id(obj_name, 'ID', uuid)])
 
